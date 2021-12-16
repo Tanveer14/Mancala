@@ -1,13 +1,13 @@
 import java.util.Scanner;
 
 public class Main {
-    public static int maxDepth=10;
+    public static int maxDepth=4;
 
     public static void main(String[] args) {
 	// write your code here
 
 
-    AIvHuman(0);
+    AIvHuman(0,1);
     }
 
     public static void human2Human()
@@ -22,31 +22,38 @@ public class Main {
             do {
                 b.PrintBoard();
                 System.out.print("Player "+(moveGiver+1)+" move:");
-                int storageNo=scanner.nextInt();
-                anotherMove=b.move(moveGiver,storageNo);
+                int binNo=scanner.nextInt();
+                anotherMove=b.move(moveGiver,binNo);
                 gameFinished=b.gameFinished();
             }while (anotherMove && (!gameFinished));
             moveGiver=(moveGiver+1)%2;
         }
     }
 
-    public static void AIvHuman(int humanPlayer)
+    public static void AIvHuman(int humanPlayer,int firstMove)
     {
         Board b= new Board();
         Scanner scanner= new Scanner(System.in);
         boolean anotherMove;
         boolean gameFinished=false;
         int AIplayer=(humanPlayer+1)%2;
-        int moveGiver=0;
 
-        if(moveGiver==humanPlayer)
+        if(firstMove==humanPlayer)
         {
             do {
                 b.PrintBoard();
-                System.out.print("Player "+(moveGiver+1)+" move:");
-                int storageNo=scanner.nextInt();
-                anotherMove=b.move(humanPlayer,storageNo);
-                gameFinished=b.gameFinished();
+                System.out.print("Player "+(humanPlayer+1)+" move:");
+                int binNo=scanner.nextInt();
+                if(b.board[humanPlayer][binNo]!=0)
+                {
+                    anotherMove=b.move(humanPlayer,binNo);
+                    gameFinished=b.gameFinished();
+                }
+                else
+                {
+                    System.out.println("Please select a non-zero storage");
+                    anotherMove=true;
+                }
             }while (anotherMove && (!gameFinished));//human move
 
         }
@@ -58,9 +65,9 @@ public class Main {
             do {
                 b.PrintBoard();
                 node n= new node(b,0,0);
-                int AImove=n.MiniMaxDecision(AIplayer);
-                System.out.println("AI move: "+AImove);
-                anotherMove=b.move(AIplayer,AImove);
+                int AIMove=n.MiniMaxDecision(AIplayer);
+                System.out.println("AI move: "+AIMove);
+                anotherMove=b.move(AIplayer,AIMove);
                 gameFinished=b.gameFinished();
             }while (anotherMove && (!gameFinished));
 
@@ -68,20 +75,22 @@ public class Main {
 
             do {
                 b.PrintBoard();
-                System.out.print("Player "+(moveGiver+1)+" move:");
-                int storageNo=scanner.nextInt();
-                anotherMove=b.move(humanPlayer,storageNo);
-                gameFinished=b.gameFinished();
+                System.out.print("Player "+(humanPlayer+1)+" move:");
+                int binNo=scanner.nextInt();
+                if(b.board[humanPlayer][binNo]!=0)
+                {
+                    anotherMove=b.move(humanPlayer,binNo);
+                    gameFinished=b.gameFinished();
+                }
+                else
+                {
+                    System.out.println("Please select a non-zero storage");
+                    anotherMove=true;
+                }
             }while (anotherMove && (!gameFinished));//human move
-
-
         }
 
         b.PrintBoard();
-
-
     }
-
-
 
 }

@@ -1,5 +1,4 @@
-import java.sql.Time;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 
 public class node {
@@ -25,8 +24,7 @@ public class node {
         return board.board[playerNo][0]-board.board[(playerNo+1)%2][0];
     }
 
-    //if a move corresponds to a bonus turn then?
-    int MiniMaxDecision(int playerNo) //returns the whole node after action, this contains the corresponding action(moveStorage) and if there are more moves
+    int MiniMaxDecision(int playerNo)
     {
         //find all the moves
         //find the move that maximizes the utility
@@ -88,6 +86,7 @@ public class node {
                 node result=new node(b,depth,i);
                 if(!anotherMove) result.depth++;
                 anotherMove=result.board.move(playerNo,i);
+
                 if(anotherMove) v=Math.max(v,result.MaxValue(playerNo,true));
                 else v=Math.max(v,result.MinValue(playerNo,false));
                 /*
@@ -122,6 +121,7 @@ public class node {
                 node result=new node(b,depth,i);
                 if (!anotherMove)result.depth++;
                 anotherMove=result.board.move(playerNo,i);
+
                 if (anotherMove) v=Math.min(v,result.MinValue(playerNo,true));
                 else v=Math.min(v,result.MaxValue(playerNo,false));
                 /*
