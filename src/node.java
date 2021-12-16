@@ -21,7 +21,7 @@ public class node {
     }
     int utility(int playerNo)
     {
-        return board.board[playerNo][0]-board.board[(playerNo+1)%2][0];
+        return (board.board[playerNo][0]-board.board[(playerNo+1)%2][0]);
     }
 
     int MiniMaxDecision(int playerNo)
@@ -35,27 +35,16 @@ public class node {
         {
            if(board.board[playerNo][i]>0)//consider only for non-zero storage
             {
-                //Board b= new Board();
-                //b.board= Arrays.stream(this.board.board).map(int[]::clone).toArray(int[][]::new);
                 node result=new node(board,1,i);
                 boolean anotherMove=result.board.move(playerNo,i);
-                //result.board.PrintBoard();
-                //call MiniMax for this node if anotherMove true
-                //in a while loop while(anotherMove) nextAction=node.MiniMax,update result
-                /*
-                while (anotherMove)
-                {
-                    //System.out.println("reached");
-                    int nextMove=result.MiniMaxDecision(playerNo);
-                    anotherMove=result.board.move(playerNo,nextMove);
-                }
-
-                 */
+                //call MaxValue for this node if anotherMove true
                 int valueAfterMove;
 
                 if(anotherMove)
                 {
-                    valueAfterMove=result.MaxValue(playerNo,true);;
+
+                    valueAfterMove=result.MaxValue(playerNo,true);
+
                 }
                 else valueAfterMove=result.MinValue(playerNo,false);
 
@@ -65,15 +54,21 @@ public class node {
                     action=i;
 
                 }
+                System.out.println(valueAfterMove);
             }
         }
+
+
 
         return action;
     }
 
     int MaxValue(int playerNo,boolean anotherMove)
     {
-        if(isTerminal()) return utility(playerNo);
+        if(isTerminal() && !anotherMove)
+        {
+            return utility(playerNo);
+        }//here is the problem
         int v=-Integer.MAX_VALUE;
 
         for(int i=1;i<board.board[0].length;i++)
@@ -89,15 +84,6 @@ public class node {
 
                 if(anotherMove) v=Math.max(v,result.MaxValue(playerNo,true));
                 else v=Math.max(v,result.MinValue(playerNo,false));
-                /*
-
-                while (anotherMove)
-                {
-                    int nextMove=result.MiniMaxDecision(playerNo);
-                    anotherMove=result.board.move(playerNo,nextMove);
-                }
-
-                 */
 
 
             }
@@ -108,7 +94,10 @@ public class node {
 
     int MinValue(int playerNo,boolean anotherMove)
     {
-        if(isTerminal()) return utility(playerNo);
+        if(isTerminal() && !anotherMove)
+        {
+            return utility(playerNo);
+        }
         int v=Integer.MAX_VALUE;
 
         for(int i=1;i<board.board[0].length;i++)
@@ -124,14 +113,6 @@ public class node {
 
                 if (anotherMove) v=Math.min(v,result.MinValue(playerNo,true));
                 else v=Math.min(v,result.MaxValue(playerNo,false));
-                /*
-                while (anotherMove)
-                {
-                    int nextMove=result.MiniMaxDecision(playerNo);
-                    anotherMove=result.board.move(playerNo,nextMove);
-                }
-
-                 */
 
             }
         }

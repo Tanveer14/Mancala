@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-    public static int maxDepth=4;
+    public static int maxDepth=1;
 
     public static void main(String[] args) {
 	// write your code here
@@ -91,6 +91,8 @@ public class Main {
         }
 
         b.PrintBoard();
+
+
     }
 
 }
