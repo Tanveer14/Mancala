@@ -12,8 +12,9 @@ public class Utility {
                 opponentSide+=board.board[(playerNo+1)%2][i];
             }
             if(choice==2) return 4*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])+ 2*(mySide - opponentSide);
-            else return 4*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])+ 2*(mySide - opponentSide)+3*board.additionalMove;
+            else return 4*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])+ 2*(mySide - opponentSide)+10*board.additionalMove;
         }
+        else if(choice==4) return 4*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])+10*board.additionalMove;
         else return 0;
 
     }

@@ -8,6 +8,7 @@ public class Main {
 
 
     //AIvHuman(0,1);
+        //AIvHuman(1,0);
         AIvAI(0);
     }
 
@@ -65,7 +66,7 @@ public class Main {
 
             do {
                 b.PrintBoard();
-                node n= new node(b,0,0);
+                State n= new State(b,0,0);
                 int AIMove=n.MiniMaxDecision(AIplayer);
                 System.out.println("AI move: "+AIMove);
                 anotherMove=b.move(AIplayer,AIMove);
@@ -109,8 +110,8 @@ public class Main {
         {
             do {
                 b.PrintBoard();
-                System.out.print("Player "+(moveGiver+1)+" move:");
-                node n= new node(b,0,0);
+                System.out.println("Player "+(moveGiver+1)+" move:");
+                State n= new State(b,0,0);
                 int binNo=n.MiniMaxDecision(moveGiver);
                 System.out.println(binNo);
                 anotherMove=b.move(moveGiver,binNo);
