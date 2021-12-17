@@ -2,12 +2,14 @@ import java.util.Arrays;
 
 public class Board {
     int[][] board = new int[2][7];
+    int additionalMove;//keeps the record if when the board is produced, an additional move earned
     Board()
     {
         Arrays.fill(board[0],4);
         Arrays.fill(board[1],4);
         board[0][0]=0;
         board[1][0]=0;
+        additionalMove=0;
 
     }
 

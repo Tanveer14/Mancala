@@ -33,7 +33,7 @@ public class node {
         //find the move that maximizes the utility
 
         int action = 0;
-        int max=-999999;
+        int max=-Integer.MAX_VALUE;
         int valueAfterMove=0;
         for(int i=1;i<board.board[0].length;i++)
         {
@@ -47,7 +47,9 @@ public class node {
 
                 if(anotherMove)
                 {
+                    result.board.additionalMove++;
                     valueAfterMove=result.MaxValue(playerNo,true);
+
 
                 }
                 else valueAfterMove=result.MinValue(playerNo,false);
@@ -74,7 +76,7 @@ public class node {
         {
             return utility(playerNo);
         }//here is the problem
-        int v=-99999;
+        int v=-Integer.MAX_VALUE;
 
         for(int i=1;i<board.board[0].length;i++)
         {
@@ -87,17 +89,18 @@ public class node {
                 if(!anotherMove) result.depth++;
                 anotherMove=result.board.move(playerNo,i);
 
-                int temp;
+
                 if(anotherMove)
                 {
-                    temp = result.MaxValue(playerNo, true);
+                    result.board.additionalMove++;
+                    v=Math.max(v,result.MaxValue(playerNo,true));
 
                 }
                 else
                 {
-                    temp = result.MinValue(playerNo, false);
+                    v=Math.max(v,result.MinValue(playerNo,false));
                 }
-                if(v<temp) v=temp;
+
 
 
             }
@@ -112,7 +115,7 @@ public class node {
         {
             return utility(playerNo);
         }
-        int v=99999;
+        int v=Integer.MAX_VALUE;
 
         for(int i=1;i<board.board[0].length;i++)
         {
@@ -125,18 +128,19 @@ public class node {
                 if (!anotherMove)result.depth++;
                 anotherMove=result.board.move(playerNo,i);
 
-                int temp;
+
                 if (anotherMove)
                 {
-                    temp = result.MinValue(playerNo, true);
+                    result.board.additionalMove++;
+                    v=Math.min(v,result.MinValue(playerNo,true));
 
                 }
                 else
                 {
-                    temp = result.MaxValue(playerNo, false);
+                    v=Math.min(v,result.MaxValue(playerNo,false));
 
                 }
-                if(temp<v)v=temp;
+
 
             }
         }
