@@ -1,22 +1,23 @@
 import java.util.Scanner;
 
 public class Main {
-    public static int maxDepth=1;
+    public static int maxDepth=10;
 
     public static void main(String[] args) {
 	// write your code here
 
 
-    AIvHuman(0,1);
+    //AIvHuman(0,1);
+        AIvAI(0);
     }
 
-    public static void human2Human()
+    public static void human2Human(int FirstMove)
     {
         Board b= new Board();
         Scanner scanner= new Scanner(System.in);
         boolean anotherMove;
         boolean gameFinished=false;
-        int moveGiver=0;
+        int moveGiver=FirstMove;
         while (!gameFinished)
         {
             do {
@@ -91,8 +92,38 @@ public class Main {
         }
 
         b.PrintBoard();
+        if(b.board[AIplayer][0]>b.board[humanPlayer][0]) System.out.println("AI won");
+        else if(b.board[AIplayer][0]<b.board[humanPlayer][0]) System.out.println("Human won");
+        else System.out.println("Drawn");
 
 
     }
+
+    public static void AIvAI(int FirstMove)
+    {
+        Board b= new Board();
+        boolean anotherMove;
+        boolean gameFinished=false;
+        int moveGiver=FirstMove;
+        while (!gameFinished)
+        {
+            do {
+                b.PrintBoard();
+                System.out.print("Player "+(moveGiver+1)+" move:");
+                node n= new node(b,0,0);
+                int binNo=n.MiniMaxDecision(moveGiver);
+                System.out.println(binNo);
+                anotherMove=b.move(moveGiver,binNo);
+                gameFinished=b.gameFinished();
+            }while (anotherMove && (!gameFinished));
+            moveGiver=(moveGiver+1)%2;
+        }
+        b.PrintBoard();
+        if(b.board[0][0]>b.board[1][0]) System.out.println("Player 1 won");
+        else if (b.board[0][0]<b.board[1][0]) System.out.println("Player 2 won");
+        else System.out.println("Drawn");
+    }
+
+
 
 }
