@@ -20,7 +20,7 @@ public class State {
         return Utility.utility(playerNo,board,1);
     }
 
-    int AlphaBetaPruning(int playerNo)
+    int AlphaBetaSearch(int playerNo)
     {
         State result=new State(board,0,0);
         ActionUtilityPair action = result.MaxValue(playerNo,false,-Integer.MAX_VALUE,Integer.MAX_VALUE);
@@ -173,7 +173,7 @@ public class State {
 
 
 
-    ActionUtilityPair MaxValue(int playerNo,boolean anotherMove,int alpha,int beta)
+    ActionUtilityPair MaxValue(int playerNo,boolean anotherMove,int alpha,int beta)//with alpha beta pruning
     {
         if(board.gameFinished()|| ( (depth>=Main.maxDepth)&& !anotherMove))
         {
@@ -227,7 +227,7 @@ public class State {
     }
 
 
-    ActionUtilityPair MinValue(int playerNo,boolean anotherMove,int alpha,int beta)
+    ActionUtilityPair MinValue(int playerNo,boolean anotherMove,int alpha,int beta)//with alpha beta pruning
     {
         if(board.gameFinished()|| ( (depth>=Main.maxDepth)&& !anotherMove))
         {

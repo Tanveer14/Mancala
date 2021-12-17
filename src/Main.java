@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-    public static int maxDepth=10;
+    public static int maxDepth=20;
 
     public static void main(String[] args) {
 	// write your code here
@@ -112,7 +112,7 @@ public class Main {
                 b.PrintBoard();
                 System.out.println("Player "+(moveGiver+1)+" move:");
                 State n= new State(b,0,0);
-                int binNo=n.MiniMaxDecision(moveGiver);
+                int binNo=n.AlphaBetaSearch(moveGiver);
                 System.out.println(binNo);
                 anotherMove=b.move(moveGiver,binNo);
                 gameFinished=b.gameFinished();
