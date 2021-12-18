@@ -1,14 +1,16 @@
 import java.util.Scanner;
 
 public class Main {
-    public static int maxDepth=20;
+    public static playerInfo[] playerInfo= new playerInfo[2];
+
 
     public static void main(String[] args) {
 	// write your code here
-
-
-    //AIvHuman(0,1);
+        //AIvHuman(0,1);
         //AIvHuman(1,0);
+        playerInfo[0]=new playerInfo(6,1);
+        playerInfo[1]=new playerInfo(6,3);
+
         AIvAI(0);
     }
 
@@ -112,6 +114,7 @@ public class Main {
                 b.PrintBoard();
                 System.out.println("Player "+(moveGiver+1)+" move:");
                 State n= new State(b,0,0);
+
                 int binNo=n.AlphaBetaSearch(moveGiver);
                 System.out.println(binNo);
                 anotherMove=b.move(moveGiver,binNo);

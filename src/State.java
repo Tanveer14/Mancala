@@ -17,15 +17,9 @@ public class State {
 
     int utility(int playerNo)
     {
-        return Utility.utility(playerNo,board,1);
+        return Utility.utility(playerNo,board,Main.playerInfo[playerNo].heuristic);
     }
 
-    int AlphaBetaSearch(int playerNo)
-    {
-        State result=new State(board,0,0);
-        ActionUtilityPair action = result.MaxValue(playerNo,false,-Integer.MAX_VALUE,Integer.MAX_VALUE);
-        return action.Action;
-    }
 
     int MiniMaxDecision(int playerNo)
     {
@@ -76,9 +70,8 @@ public class State {
 
     ActionUtilityPair MaxValue(int playerNo,boolean anotherMove)
     {
-        if(board.gameFinished()|| ( (depth>=Main.maxDepth)&& !anotherMove))
+        if(board.gameFinished()|| ( (depth>=Main.playerInfo[playerNo].depth)&& !anotherMove))
         {
-           // System.out.println(moveStorage +" : "+utility(playerNo));
             return new ActionUtilityPair(moveStorage,utility(playerNo));
         }//here is the problem
         ActionUtilityPair v=new ActionUtilityPair(0,-Integer.MAX_VALUE);
@@ -87,9 +80,6 @@ public class State {
         {
             if(board.board[playerNo][i]>0)
             {
-                //Board b= new Board();
-                //b.board= Arrays.stream(this.board.board).map(int[]::clone).toArray(int[][]::new);
-
                 State result;
                 if(depth==0 ) result=new State(board,1,i);
                 else
@@ -98,23 +88,17 @@ public class State {
                     if(!anotherMove) result.depth++;
                 }
 
-
                 anotherMove=result.board.move(playerNo,i);
-
 
                 if(anotherMove)
                 {
                     result.board.additionalMove++;
                     v=Max(result.MaxValue(playerNo,true),v);
-
                 }
                 else
                 {
-
                     v=Max(result.MinValue(playerNo,false),v);
                 }
-
-                //if (depth==0) System.out.println(v.Action +" : "+v.Utility);
 
             }
         }
@@ -126,7 +110,7 @@ public class State {
 
     ActionUtilityPair MinValue(int playerNo,boolean anotherMove)
     {
-        if(board.gameFinished()|| ( (depth>=Main.maxDepth)&& !anotherMove))
+        if(board.gameFinished()|| ( (depth>=Main.playerInfo[playerNo].depth)&& !anotherMove))
         {
             //System.out.println(moveStorage +" : "+utility(playerNo));
             return new ActionUtilityPair(moveStorage,utility(playerNo));
@@ -173,11 +157,18 @@ public class State {
 
 
 
+    int AlphaBetaSearch(int playerNo)
+    {
+        State result=new State(board,0,0);
+        ActionUtilityPair action = result.MaxValue(playerNo,false,-Integer.MAX_VALUE,Integer.MAX_VALUE);
+        return action.Action;
+    }
+
+
     ActionUtilityPair MaxValue(int playerNo,boolean anotherMove,int alpha,int beta)//with alpha beta pruning
     {
-        if(board.gameFinished()|| ( (depth>=Main.maxDepth)&& !anotherMove))
+        if(board.gameFinished()|| ( (depth>=Main.playerInfo[playerNo].depth)&& !anotherMove))
         {
-            // System.out.println(moveStorage +" : "+utility(playerNo));
             return new ActionUtilityPair(moveStorage,utility(playerNo));
         }//here is the problem
         ActionUtilityPair v=new ActionUtilityPair(0,-Integer.MAX_VALUE);
@@ -186,11 +177,15 @@ public class State {
         {
             if(board.board[playerNo][i]>0)
             {
-                //Board b= new Board();
-                //b.board= Arrays.stream(this.board.board).map(int[]::clone).toArray(int[][]::new);
+
 
                 State result;
-                if(depth==0 ) result=new State(board,1,i);
+                if(depth==0 )
+                {
+                    result=new State(board,1,i);
+                    Main.playerInfo[playerNo].selectedBin=i;
+                    Main.playerInfo[playerNo].freeMoves=0;
+                }
                 else
                 {
                     result= new State(board,depth,moveStorage);
@@ -203,8 +198,10 @@ public class State {
 
                 if(anotherMove)
                 {
-                    result.board.additionalMove++;
+
+                    if(depth==1)Main.playerInfo[playerNo].freeMoves++;
                     v=Max(result.MaxValue(playerNo,true,alpha,beta),v);
+
 
                 }
                 else
@@ -215,8 +212,6 @@ public class State {
 
                 if(v.Utility>=beta) return v;
                 alpha=Math.max(alpha,v.Utility);
-
-                //if (depth==0) System.out.println(v.Action +" : "+v.Utility);
 
             }
         }
@@ -229,9 +224,8 @@ public class State {
 
     ActionUtilityPair MinValue(int playerNo,boolean anotherMove,int alpha,int beta)//with alpha beta pruning
     {
-        if(board.gameFinished()|| ( (depth>=Main.maxDepth)&& !anotherMove))
+        if(board.gameFinished()|| ( (depth>=Main.playerInfo[playerNo].depth)&& !anotherMove))
         {
-            //System.out.println(moveStorage +" : "+utility(playerNo));
             return new ActionUtilityPair(moveStorage,utility(playerNo));
         }
         ActionUtilityPair v=new ActionUtilityPair(0,Integer.MAX_VALUE);
@@ -240,11 +234,14 @@ public class State {
         {
             if(board.board[playerNo][i]>0)
             {
-                //Board b= new Board();
-                //b.board= Arrays.stream(this.board.board).map(int[]::clone).toArray(int[][]::new);
 
                 State result;
-                if(depth==0 ) result=new State(board,1,i);
+                if(depth==0 )
+                {
+                    result=new State(board,1,i);
+                    Main.playerInfo[playerNo].selectedBin=i;
+                    Main.playerInfo[playerNo].freeMoves=0;
+                }
                 else
                 {
                     result= new State(board,depth,moveStorage);
@@ -257,7 +254,6 @@ public class State {
 
                 if (anotherMove)
                 {
-                    result.board.additionalMove++;
                     v=Min(result.MinValue(playerNo,true,alpha,beta),v);
 
                 }
@@ -269,10 +265,6 @@ public class State {
 
                 if(v.Utility<=alpha) return v;
                 beta=Math.min(beta,v.Utility);
-
-
-
-
             }
         }
         return v;
