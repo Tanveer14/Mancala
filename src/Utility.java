@@ -30,7 +30,7 @@ public class Utility {
             w4=3;
             w6=2;
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
-                    + w4*Main.playerInfo[playerNo].selectedBin +w6*board.totalCaptured[playerNo];
+                    + w4*Main.playerInfo[playerNo].selectedBin +w6*Main.playerInfo[playerNo].captured;//selected bin specifies how close the bin selected is to the storage
         }
 
 
@@ -45,7 +45,7 @@ public class Utility {
         {
             w5=3;
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
-                    + w5*closedToMyStorage;//selected bin specifies how close the bin selected is to the storage
+                    + w5*closedToMyStorage;
         }
 
         if(choice==6)
@@ -54,7 +54,7 @@ public class Utility {
             w3=4;
             w6=3;
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0]) +
-                    w6*board.totalCaptured[playerNo]+w3*Main.playerInfo[playerNo].freeMoves;
+                    w6*Main.playerInfo[playerNo].captured+w3*Main.playerInfo[playerNo].freeMoves;
         }
 
         else return 0;

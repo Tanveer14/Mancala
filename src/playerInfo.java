@@ -4,6 +4,7 @@ public class playerInfo {
     int selectedBin;
     int heuristic;
     int depth;
+    int captured;
     playerInfo(int depth,int heuristic)
     {
         this.depth=depth;

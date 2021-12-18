@@ -19,13 +19,13 @@ public class Main {
         playerInfo[1]=new playerInfo();
         //AIvHuman();
 
-        //AIvAI();
+       // AIvAI();
 
        // human2Human(0);
 
 
 
-      //generateStat();
+      generateStat();
 
 
 
@@ -181,7 +181,7 @@ public class Main {
 
 
     public static void generateStat() throws FileNotFoundException {
-        randomMove=true;
+        randomMove=true;//we'll randomize move ordering
         Random random= new Random();
         PrintWriter pw=new PrintWriter("Statistics.csv");
         pw.println("Player 0 Heuristic,Player 1 Heuristic,Player 0 Won,Player 1 Won, Drawn");
@@ -198,6 +198,7 @@ public class Main {
 
                 for(int i=0;i<10;i++)
                 {
+                    //we'll also randomize the depths
                     playerInfo[0]= new playerInfo(1+random.nextInt(10),h0);
                     if(random.nextInt(2)==1)playerInfo[1]=new playerInfo(playerInfo[0].depth+random.nextInt(3),h1);
                     else playerInfo[1]=new playerInfo(Math.abs(playerInfo[0].depth-random.nextInt(3)),h1);
@@ -223,23 +224,23 @@ public class Main {
 
     public static int AIvAIForStat(int FirstMove)
     {
-        Board b= new Board();
+        Board board= new Board();
         boolean anotherMove;
         boolean gameFinished=false;
         int moveGiver=FirstMove;
         while (!gameFinished)
         {
             do {
-                State n= new State(b,0,0);
+                State n= new State(board,0,0);
                 int binNo=n.AlphaBetaSearch(moveGiver);
-                anotherMove=b.move(moveGiver,binNo);
-                gameFinished=b.gameFinished();
+                anotherMove=board.move(moveGiver,binNo);
+                gameFinished=board.gameFinished();
             }while (anotherMove && (!gameFinished));
             moveGiver=(moveGiver+1)%2;
         }
 
 
-        return Integer.compare(b.board[0][0], b.board[1][0]);
+        return Integer.compare(board.board[0][0], board.board[1][0]);
 
     }
 
