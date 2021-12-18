@@ -14,12 +14,17 @@ public class Utility {
 
         if(choice==2)
         {
+            w1=20;
+            w2=1;
 
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])+ w2*(mySide - opponentSide);
         }
 
         if(choice==3)
         {
+            w1=20;
+            w2=1;
+            w3=20;
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
                     + w2*(mySide - opponentSide)+w3*Main.playerInfo[playerNo].freeMoves;
         }
@@ -27,8 +32,8 @@ public class Utility {
 
         if(choice==4)
         {
-            w4=3;
-            w6=2;
+            w4=2;
+            w6=3;
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
                     + w4*Main.playerInfo[playerNo].selectedBin +w6*Main.playerInfo[playerNo].captured;//selected bin specifies how close the bin selected is to the storage
         }
@@ -51,7 +56,6 @@ public class Utility {
         if(choice==6)
         {
             w1=5;
-            w3=4;
             w6=3;
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0]) +
                     w6*Main.playerInfo[playerNo].captured+w3*Main.playerInfo[playerNo].freeMoves;

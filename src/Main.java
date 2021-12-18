@@ -17,15 +17,15 @@ public class Main {
 
         playerInfo[0]= new playerInfo();
         playerInfo[1]=new playerInfo();
-        //AIvHuman();
+        System.out.println("Select: 1. AI Vs AI 2. Human Vs AI 3.Generate Stat");
+        int option=scanner.nextInt();
+        if(option==1)AIvAI();
+        else if(option==2)AIvHuman();
+        else if(option==3)generateStat();
 
-       // AIvAI();
-
-       // human2Human(0);
 
 
 
-      generateStat();
 
 
 
