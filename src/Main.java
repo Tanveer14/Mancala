@@ -14,18 +14,18 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
 
 
-   // AIvHuman();
 
-        playerInfo[0]= new playerInfo(6,1);
-        playerInfo[1]=new playerInfo(6,1);
+        playerInfo[0]= new playerInfo();
+        playerInfo[1]=new playerInfo();
+        //AIvHuman();
 
-        AIvAI();
+        //AIvAI();
 
        // human2Human(0);
 
-       // AIvHuman();
 
-       // generateStat();
+
+      //generateStat();
 
 
 
@@ -133,44 +133,6 @@ public class Main {
     }
 
 
-    public static void generateStat() throws FileNotFoundException {
-        randomMove=true;
-        Random random= new Random();
-        PrintWriter pw=new PrintWriter("Statistics.csv");
-        pw.println("Player 0 Depth,Player 1 Depth,Player 0 Heuristic,Player 1 Heuristic,Player 0 Won,Player 1 Won, Drawn");
-
-
-            for(int h1=1;h1<=6;h1++)
-            {
-                for(int h2=1;h2<=6;h2++)
-                {
-
-                    playerInfo[0]= new playerInfo(8+random.nextInt(2),h1);
-                    playerInfo[1]=new playerInfo(8+random.nextInt(2),h2);
-                    pw.print(playerInfo[0].depth+","+ playerInfo[1].depth+","+h1+","+h2);
-                    float p1Won=0,p2Won=0,drawn=0;
-
-                    for(int i=0;i<10;i++)
-                    {
-                        int result=AIvAIForStat(0);
-                        if(result==1)p1Won++;
-                        else if(result==-1)p2Won++;
-                        else if(result==0)drawn++;
-                    }
-
-
-                    p1Won=p1Won*10;
-                    p2Won=p2Won*10;
-                    drawn=drawn*10;
-
-
-
-                    pw.println(","+p1Won+","+p2Won+","+drawn);
-                }
-            }
-
-        pw.close();
-    }
 
 
     public static void AIvAI()
@@ -215,6 +177,49 @@ public class Main {
     }
 
 
+
+
+
+    public static void generateStat() throws FileNotFoundException {
+        randomMove=true;
+        Random random= new Random();
+        PrintWriter pw=new PrintWriter("Statistics.csv");
+        pw.println("Player 0 Heuristic,Player 1 Heuristic,Player 0 Won,Player 1 Won, Drawn");
+
+
+        for(int h0=1;h0<=6;h0++)
+        {
+            for(int h1=1;h1<=6;h1++)
+            {
+
+
+                pw.print(h0+","+h1);
+                float p1Won=0,p2Won=0,drawn=0;
+
+                for(int i=0;i<10;i++)
+                {
+                    playerInfo[0]= new playerInfo(1+random.nextInt(10),h0);
+                    if(random.nextInt(2)==1)playerInfo[1]=new playerInfo(playerInfo[0].depth+random.nextInt(3),h1);
+                    else playerInfo[1]=new playerInfo(Math.abs(playerInfo[0].depth-random.nextInt(3)),h1);
+                    int result=AIvAIForStat(0);
+                    if(result==1)p1Won++;
+                    else if(result==-1)p2Won++;
+                    else if(result==0)drawn++;
+                }
+
+
+                p1Won=p1Won*10;
+                p2Won=p2Won*10;
+                drawn=drawn*10;
+
+
+
+                pw.println(","+p1Won+","+p2Won+","+drawn);
+            }
+        }
+
+        pw.close();
+    }
 
     public static int AIvAIForStat(int FirstMove)
     {
