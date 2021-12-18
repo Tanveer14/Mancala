@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class State {
     //cloning 2D array Arrays.stream(this.boardPositions).map(int[]::clone).toArray(int[][]::new)
@@ -173,8 +175,15 @@ public class State {
         }//here is the problem
         ActionUtilityPair v=new ActionUtilityPair(0,-Integer.MAX_VALUE);
 
-        for(int i=1;i<board.board[0].length;i++)
+
+        ArrayList<Integer> possibleMoves=new ArrayList<>();
+        for(int i=1;i<=6;i++)
         {
+            possibleMoves.add(i);
+        }
+        if(Main.randomMove) Collections.shuffle(possibleMoves);
+
+        for (int i:possibleMoves) {
             if(board.board[playerNo][i]>0)
             {
 

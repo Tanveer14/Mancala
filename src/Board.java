@@ -2,6 +2,7 @@ import java.util.Arrays;
 
 public class Board {
     int[][] board = new int[2][7];
+    int[] totalCaptured;
     int additionalMove;//keeps the record if when the board is produced, an additional move earned
     Board()
     {
@@ -10,6 +11,7 @@ public class Board {
         board[0][0]=0;
         board[1][0]=0;
         additionalMove=0;
+        totalCaptured=new int[2];
 
     }
 
@@ -47,6 +49,7 @@ public class Board {
                     else if(board[playerNo][i]==1 && board[opposition][7-i]>0)//if the last bead in player's side
                         // and that is the only one and opposite side has non-zero beads
                     {
+                        totalCaptured[playerNo]=(1+board[opposition][7-i]);
                         board[playerNo][0]+=(1+board[opposition][7-i]);
                         board[opposition][7-i]=0;
                         board[playerNo][i]=0;
