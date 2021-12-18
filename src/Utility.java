@@ -12,14 +12,24 @@ public class Utility {
             opponentSide+=board.board[(playerNo+1)%2][i];
         }
 
-        if(choice==2) return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])+ w2*(mySide - opponentSide);
+        if(choice==2)
+        {
+            w2=1;
+            return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])+ w2*(mySide - opponentSide);
+        }
 
-        if(choice==3) return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])+ w2*(mySide - opponentSide)+w3*Main.playerInfo[playerNo].freeMoves;
+        if(choice==3)
+        {
+            return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
+                    + w2*(mySide - opponentSide)+w3*Main.playerInfo[playerNo].freeMoves;
+        }
 
 
-        if(choice==4) return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
-                +w2*(mySide - opponentSide)+w3*Main.playerInfo[playerNo].freeMoves
-                + w4*Main.playerInfo[playerNo].selectedBin ;
+        if(choice==4)
+        {
+            return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
+                    + w4*Main.playerInfo[playerNo].selectedBin ;
+        }
 
 
         int closedToMyStorage=0;
@@ -29,11 +39,16 @@ public class Utility {
 
         }
 
-        if(choice==5) return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
-                +w2*(mySide - opponentSide)+w3*Main.playerInfo[playerNo].freeMoves
-                + w4*Main.playerInfo[playerNo].selectedBin + w5*closedToMyStorage;//selected bin specifies how close the bin selected is to the storage
+        if(choice==5)
+        {
+            return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
+                    + w5*closedToMyStorage;//selected bin specifies how close the bin selected is to the storage
+        }
 
-        if(choice==6) return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0]) + w6*board.totalCaptured[playerNo];
+        if(choice==6)
+        {
+            return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0]) + w6*board.totalCaptured[playerNo];
+        }
 
         else return 0;
 

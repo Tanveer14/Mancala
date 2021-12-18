@@ -17,7 +17,7 @@ public class Board {
 
     void PrintBoard()
     {
-        System.out.println("P2  1\t2\t3\t4\t5\t6");
+        System.out.println("P1  1\t2\t3\t4\t5\t6");
         System.out.println("\t----------------------");
         System.out.print("\t");
         for(int i=1;i<board[1].length;i++) System.out.print(board[1][i]+"\t");//player 2 data
@@ -27,7 +27,7 @@ public class Board {
         for(int i=board[1].length-1;i>0;i--) System.out.print(board[0][i]+"\t");//player 1 data
         System.out.println();
         System.out.println("\t----------------------");
-        System.out.println("\t6\t5\t4\t3\t2\t1\tP1");
+        System.out.println("\t6\t5\t4\t3\t2\t1\tP0");
         System.out.println();
     }
     

@@ -1,7 +1,6 @@
 public class playerInfo {
 
     int freeMoves;
-    int capturedInThisMove;
     int selectedBin;
     int heuristic;
     int depth;

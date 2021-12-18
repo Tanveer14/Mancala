@@ -1,22 +1,27 @@
-import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
     public static playerInfo[] playerInfo= new playerInfo[2];
     public static boolean randomMove=false;
-
+    public static int whosTurn;
 
 
     public static void main(String[] args) throws FileNotFoundException {
 
 
-    generateStat();
+   // AIvHuman();
 
+        playerInfo[0]= new playerInfo(6,1);
+        playerInfo[1]=new playerInfo(6,1);
 
+        AIvAI(0);
+
+       // human2Human(0);
+
+       // AIvHuman();
 
 
 
@@ -35,7 +40,7 @@ public class Main {
         {
             do {
                 b.PrintBoard();
-                System.out.print("Player "+(moveGiver+1)+" move:");
+                System.out.print("Player "+moveGiver+" move:");
                 int binNo=scanner.nextInt();
                 anotherMove=b.move(moveGiver,binNo);
                 gameFinished=b.gameFinished();
@@ -44,19 +49,30 @@ public class Main {
         }
     }
 
-    public static void AIvHuman(int humanPlayer,int firstMove)
+    public static void AIvHuman()
     {
+        System.out.println("Enter Human Player No(0/1): ");
         Board b= new Board();
         Scanner scanner= new Scanner(System.in);
+        int humanPlayer=scanner.nextInt();
+
+        System.out.println("Enter who'll give first move(0/1): ");
+        int firstMove=scanner.nextInt();
         boolean anotherMove;
         boolean gameFinished=false;
         int AIplayer=(humanPlayer+1)%2;
+
+        System.out.println("Enter depth and Heuristic:");
+        int depth=scanner.nextInt();
+        int heuristic=scanner.nextInt();
+
+        playerInfo[AIplayer]=new playerInfo(depth,heuristic);
 
         if(firstMove==humanPlayer)
         {
             do {
                 b.PrintBoard();
-                System.out.print("Player "+(humanPlayer+1)+" move:");
+                System.out.print("Player "+humanPlayer+" move:");
                 int binNo=scanner.nextInt();
                 if(b.board[humanPlayer][binNo]!=0)
                 {
@@ -79,7 +95,7 @@ public class Main {
             do {
                 b.PrintBoard();
                 State n= new State(b,0,0);
-                int AIMove=n.MiniMaxDecision(AIplayer);
+                int AIMove=n.AlphaBetaSearch(AIplayer);
                 System.out.println("AI move: "+AIMove);
                 anotherMove=b.move(AIplayer,AIMove);
                 gameFinished=b.gameFinished();
@@ -89,7 +105,7 @@ public class Main {
 
             do {
                 b.PrintBoard();
-                System.out.print("Player "+(humanPlayer+1)+" move:");
+                System.out.print("Player "+humanPlayer+" move:");
                 int binNo=scanner.nextInt();
                 if(b.board[humanPlayer][binNo]!=0)
                 {
@@ -176,8 +192,8 @@ public class Main {
         }
 
             b.PrintBoard();
-            if(b.board[0][0]>b.board[1][0]) System.out.println("Player 1 won");
-            else if (b.board[0][0]<b.board[1][0]) System.out.println("Player 2 won");
+            if(b.board[0][0]>b.board[1][0]) System.out.println("Player 0 won");
+            else if (b.board[0][0]<b.board[1][0]) System.out.println("Player 1 won");
             else System.out.println("Drawn");
 
     }

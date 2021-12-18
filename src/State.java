@@ -8,6 +8,7 @@ public class State {
     int depth;
     int moveStorage;
     boolean anotherMove;
+
     State(Board board,int depth, int moveStorage)
     {
         this.board=new Board();
@@ -162,7 +163,9 @@ public class State {
     int AlphaBetaSearch(int playerNo)
     {
         State result=new State(board,0,0);
-        ActionUtilityPair action = result.MaxValue(playerNo,false,-Integer.MAX_VALUE,Integer.MAX_VALUE);
+        Main.whosTurn=playerNo;
+        ActionUtilityPair action;
+        action=result.MaxValue(playerNo,false,-Integer.MAX_VALUE,Integer.MAX_VALUE);
         return action.Action;
     }
 
@@ -171,7 +174,7 @@ public class State {
     {
         if(board.gameFinished()|| ( (depth>=Main.playerInfo[playerNo].depth)&& !anotherMove))
         {
-            return new ActionUtilityPair(moveStorage,utility(playerNo));
+            return new ActionUtilityPair(moveStorage,utility(Main.whosTurn));
         }//here is the problem
         ActionUtilityPair v=new ActionUtilityPair(0,-Integer.MAX_VALUE);
 
@@ -216,7 +219,7 @@ public class State {
                 else
                 {
 
-                    v=Max(result.MinValue(playerNo,false,alpha,beta),v);
+                    v=Max(result.MinValue((playerNo+1)%2,false,alpha,beta),v);
                 }
 
                 if(v.Utility>=beta) return v;
@@ -235,7 +238,7 @@ public class State {
     {
         if(board.gameFinished()|| ( (depth>=Main.playerInfo[playerNo].depth)&& !anotherMove))
         {
-            return new ActionUtilityPair(moveStorage,utility(playerNo));
+            return new ActionUtilityPair(moveStorage,utility(Main.whosTurn));
         }
         ActionUtilityPair v=new ActionUtilityPair(0,Integer.MAX_VALUE);
 
@@ -268,7 +271,7 @@ public class State {
                 }
                 else
                 {
-                    v=Min(result.MaxValue(playerNo,false,alpha,beta),v);
+                    v=Min(result.MaxValue((playerNo+1)%2,false,alpha,beta),v);
 
                 }
 
