@@ -1,8 +1,8 @@
 public class Utility {
     public static int utility(int playerNo,Board board,int choice)
     {
-        int w1=4,w2=0,w3=4,w4=3,w5=10,w6=3;
-        if(choice==1) return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0]);
+        int w1=4,w2=0,w3=4,w4,w5,w6;
+        if(choice==1) return (board.board[playerNo][0]-board.board[(playerNo+1)%2][0]);
 
         int mySide=0;
         int opponentSide=0;
@@ -14,7 +14,7 @@ public class Utility {
 
         if(choice==2)
         {
-            w2=1;
+
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])+ w2*(mySide - opponentSide);
         }
 
@@ -27,8 +27,10 @@ public class Utility {
 
         if(choice==4)
         {
+            w4=2;
+            w6=3;
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
-                    + w4*Main.playerInfo[playerNo].selectedBin ;
+                    + w4*Main.playerInfo[playerNo].selectedBin +w6*board.totalCaptured[playerNo];
         }
 
 
@@ -41,12 +43,14 @@ public class Utility {
 
         if(choice==5)
         {
+            w5=2;
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0])
                     + w5*closedToMyStorage;//selected bin specifies how close the bin selected is to the storage
         }
 
         if(choice==6)
         {
+            w6=3;
             return w1*(board.board[playerNo][0]-board.board[(playerNo+1)%2][0]) + w6*board.totalCaptured[playerNo];
         }
 

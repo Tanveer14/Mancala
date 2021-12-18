@@ -1,12 +1,14 @@
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
     public static playerInfo[] playerInfo= new playerInfo[2];
     public static boolean randomMove=false;
     public static int whosTurn;
+    public static Scanner scanner= new Scanner(System.in);
 
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -17,11 +19,13 @@ public class Main {
         playerInfo[0]= new playerInfo(6,1);
         playerInfo[1]=new playerInfo(6,1);
 
-        AIvAI(0);
+        AIvAI();
 
        // human2Human(0);
 
        // AIvHuman();
+
+       // generateStat();
 
 
 
@@ -53,7 +57,7 @@ public class Main {
     {
         System.out.println("Enter Human Player No(0/1): ");
         Board b= new Board();
-        Scanner scanner= new Scanner(System.in);
+
         int humanPlayer=scanner.nextInt();
 
         System.out.println("Enter who'll give first move(0/1): ");
@@ -131,19 +135,19 @@ public class Main {
 
     public static void generateStat() throws FileNotFoundException {
         randomMove=true;
+        Random random= new Random();
         PrintWriter pw=new PrintWriter("Statistics.csv");
-        pw.println("Depth,Player 1 Heuristic,Player 2 Heuristic,Player 1 Won,Player 2 Won, Drawn");
+        pw.println("Player 0 Depth,Player 1 Depth,Player 0 Heuristic,Player 1 Heuristic,Player 0 Won,Player 1 Won, Drawn");
 
-        for(int depth=10;depth<=14;depth+=2)
-        {
 
             for(int h1=1;h1<=6;h1++)
             {
                 for(int h2=1;h2<=6;h2++)
                 {
-                    playerInfo[0]= new playerInfo(depth,h1);
-                    playerInfo[1]=new playerInfo(depth,h2);
-                    pw.print(depth+","+h1+","+h2);
+
+                    playerInfo[0]= new playerInfo(8+random.nextInt(2),h1);
+                    playerInfo[1]=new playerInfo(8+random.nextInt(2),h2);
+                    pw.print(playerInfo[0].depth+","+ playerInfo[1].depth+","+h1+","+h2);
                     float p1Won=0,p2Won=0,drawn=0;
 
                     for(int i=0;i<10;i++)
@@ -154,22 +158,34 @@ public class Main {
                         else if(result==0)drawn++;
                     }
 
+
                     p1Won=p1Won*10;
                     p2Won=p2Won*10;
                     drawn=drawn*10;
 
 
+
                     pw.println(","+p1Won+","+p2Won+","+drawn);
                 }
             }
-        }
 
         pw.close();
     }
 
 
-    public static void AIvAI(int FirstMove)
+    public static void AIvAI()
     {
+        System.out.println("Enter First Move Giver(0/1):");
+        int FirstMove=scanner.nextInt();
+        System.out.println("Player 0 Heuristic:");
+        playerInfo[0].heuristic=scanner.nextInt();
+        System.out.println("Player 0 depth:");
+        playerInfo[0].depth=scanner.nextInt();
+        System.out.println("Player 1 Heuristic:");
+        playerInfo[1].heuristic=scanner.nextInt();
+        System.out.println("Player 1 depth:");
+        playerInfo[1].depth=scanner.nextInt();
+
         Board b= new Board();
         boolean anotherMove;
         boolean gameFinished=false;
@@ -179,7 +195,7 @@ public class Main {
             do {
 
                     b.PrintBoard();
-                    System.out.println("Player "+(moveGiver+1)+" move:");
+                    System.out.println("Player "+moveGiver+" move:");
 
                 State n= new State(b,0,0);
 
@@ -209,12 +225,8 @@ public class Main {
         while (!gameFinished)
         {
             do {
-
-
                 State n= new State(b,0,0);
-
                 int binNo=n.AlphaBetaSearch(moveGiver);
-
                 anotherMove=b.move(moveGiver,binNo);
                 gameFinished=b.gameFinished();
             }while (anotherMove && (!gameFinished));

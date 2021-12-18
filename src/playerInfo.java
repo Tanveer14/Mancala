@@ -9,4 +9,9 @@ public class playerInfo {
         this.depth=depth;
         this.heuristic=heuristic;
     }
+    playerInfo()
+    {
+        depth=0;
+        heuristic=0;
+    }
 }
